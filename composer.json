@@ -1,0 +1,33 @@
+{
+    "name": "devaweb/livewire-data-table",
+    "description": "Simple livewire data table",
+    "require": {
+        "devaweb/bladetailui": "^2.2"
+    },
+    "require-dev": {
+        "livewire/livewire": "^2.10"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Deva Muthusamy",
+            "email": "deva.webdeveloper@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Devaweb\\LivewireDataTable\\LivewireDataTableServiceProvider"
+            ],
+            "aliases": {},
+            "dont-discover": []
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Devaweb\\LivewireDataTable\\": "src/"
+        },
+        "files": []
+    }
+
+}
