@@ -1,5 +1,8 @@
-<div>
-    <div x-data="manageAccordion()" x-cloak>
+
+<div id="acOutline" onclick="setBorder('acOutline')">
+    <div x-data="{
+        content: '<?php echo $isOpen ?>',
+    }" x-cloak>
         <div class="overflow-hidden bg-white rounded-md shadow-sm">
             {{-- top --}}
             <div class="flex items-center justify-between border-b">
@@ -33,14 +36,9 @@
                 </div>
             </div>
             {{-- content ----------------- --}}
-            <div x-show.transition='content' class="p-2">
+            <div x-show.transition.opacity='content' class="p-2">
                 {{ $slot }}
             </div>
         </div>
     </div>
 </div>
-<script>
-    Alpine.data('manageAccordion', () => ({
-        content: "<?php echo $isOpen ?>",
-    }));
-</script>

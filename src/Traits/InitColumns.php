@@ -176,7 +176,8 @@ trait InitColumns {
             'editable' => $editable,
             'editable-options' => $ed_opt,
             'filterable' => $filterable,
-            'filterable_options' => (is_null($filterableOpts)) ? '' : $filterableOpts
+            'filterable_options' => (is_null($filterableOpts))
+                                    ? [] : explode(',', $filterableOpts)
         ];
 
     }

@@ -1,5 +1,7 @@
 <div>
-
+    <div class="" wire:loading>
+        <x-btui-loader loading="true" />
+    </div>
     @php
         $checkbox = 'border rounded border-gray-400';
     @endphp

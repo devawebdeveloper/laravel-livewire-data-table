@@ -142,6 +142,26 @@ class DataTable extends Component
 
         };
 
+        $this->addSearchable();
+
+    }
+
+    public function addSearchable()
+    {
+        foreach($this->selectedCols as $col => $value) {
+            if($value['searchable']) {
+                if(!in_array($col, $this->cols['searchable'])) {
+                    array_push($this->cols['searchable'], $col);
+                }
+            } else {
+                if(in_array($col, $this->cols['searchable'])) {
+                    $key = array_search($col, $this->cols['searchable']);
+                    unset($this->cols['searchable'][$key]);
+                }
+            }
+        }
+
+        //dd($this->cols['searchable']);
     }
 
 
@@ -150,11 +170,15 @@ class DataTable extends Component
         $this->colbox = true;
         //dd($this->ckeys);
 
-        $cscols = $this->getCache($this->ckeys['selectedCols']);
-        $ccols = $this->getCache($this->ckeys['columns']);
+        //$cscols = $this->getCache($this->ckeys['selectedCols']);
+        //$ccols = $this->getCache($this->ckeys['columns']);
 
-        $this->selectedCols = (empty($cscols)) ? $this->selectedCols : $cscols;
-        $this->columns = (empty($ccols)) ? $this->columns : $ccols;
+        //$this->selectedCols = (empty($cscols)) ? $this->selectedCols : $cscols;
+        //$this->columns = (empty($ccols)) ? $this->columns : $ccols;
+
+        $c = $this->initCache($this->table_name, true);
+        if($c) $this->addSearchable();
+        //$this->addSearchable();
     }
 
     public function dbModal()

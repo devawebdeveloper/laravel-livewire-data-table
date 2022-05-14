@@ -4,10 +4,10 @@
 
         <div class="flex items-center px-4 py-2">
             <div class="w-4/12">
-                <h1 class="uppercase">Data Table - {{ $table }}</h1>
+                <h1 class="uppercase">Data Table - {{ $table_name }}</h1>
             </div>
             <div class="w-full">
-                <input wire:model='search' type="text" class="w-full px-4 py-1 bg-white border border-gray-300 rounded-full" placeholder="Search in {{ implode(',', $columns) }} ...">
+                <input wire:model='search' type="text" class="w-full px-4 py-1 bg-white border border-gray-300 rounded-full" placeholder="Search in {{ implode(',', $cols['searchable']) }} ...">
             </div>
         </div>
 
@@ -151,7 +151,7 @@
                         @slot('form')
                         <div class="flex items-center justify-start gap-2 ">
 
-                            <div class="w-48">
+                            <div style="width:80%;min-width:200px;">
 
                                 @if($selectedCols[$col]['editable'])
 
@@ -187,7 +187,7 @@
                 {{-- delete - options ----------------------------- --}}
                 <td class="pr-1 bg-gray-100">
 
-                    <x-inline-edit  form-width="w-64">
+                    <x-dt-inline-edit  form-width="w-64">
                         @slot('trigger')
                         <div class="text-red-700 hover:text-red-500">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
@@ -201,7 +201,7 @@
                                 <x-btui-button wire:click='deleteData({{ $d->id }})' size="sm" color="light-red">Delete</x-btui-button>
                             </div>
                         @endslot
-                    </x-inline-edit>
+                    </x-dt-inline-edit>
 
                 </td>
             </tr>

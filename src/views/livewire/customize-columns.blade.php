@@ -1,7 +1,11 @@
 <div class="p-4">
-    <div class="flex justify-between pb-2">
-        <div>
+
+    <div class="flex justify-between items-center pb-2 h-10">
+        <div class="flex justify-start items-center gap-3">
             <h3>Customize Columns</h3>
+            <div class="" wire:loading >
+                <x-btui-sloader/>
+            </div>
         </div>
 
         <div class="">
