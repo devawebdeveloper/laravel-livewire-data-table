@@ -2,11 +2,14 @@
 <div class="py-1 bg-white rounded-md shadow">
     <div class="w-full bg-white rounded-md shadow">
 
-        <div class="flex items-center px-4 py-2">
-            <div class="w-4/12">
-                <h1 class="uppercase">Data Table - {{ $table_name }}</h1>
+        <div class="flex flex-wrap items-center px-4 py-2">
+            <div class="w-full md:w-3/12">
+                <h1 class="uppercase">
+                    {{ $table_name }}
+                    <span class="xs:hidden"> - Data Table</span> <br>
+                </h1>
             </div>
-            <div class="w-full">
+            <div class="w-full md:w-9/12">
                 <input wire:model='search' type="text" class="w-full px-4 py-1 bg-white border border-gray-300 rounded-full" placeholder="Search in {{ implode(',', $cols['searchable']) }} ...">
             </div>
         </div>
@@ -15,26 +18,46 @@
 
         {{-- secont row -------- add new - columns customization - per_page --}}
 
-        <div class="flex flex-wrap items-center justify-between py-1 border-t border-b border-gray-200" >
-            <div class="flex gap-2 px-4">
+        <div class="flex flex-wrap items-center justify-between border-t py-1" >
+            <div class="flex gap-2 px-2">
+                @if (count($addNew) > 0)
                 <x-btui-smodal title="Add New">
                     <x-slot name="trigger">
                         <x-btui-button size="sm">Add New</x-btui-button>
                     </x-slot>
 
-                    @if(count($addNew) > 0)
+                    @if(count($addNew) > 0 && $addNew['component'] != '' && count($addNew['params']) > 0)
                     @livewire($addNew['component'],$addNew['params'])
                     @else
                     <div class="p-4 text-sm bg-red-400">No! Livewire Component Not found!</div>
                     @endif
 
                 </x-btui-smodal>
-                <div wire:click='$set("colbox", {{ !$colbox }})' class="flex items-center justify-start gap-2 px-2 bg-gray-100 rounded-md cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                    </svg>
-                    <p class="">Columns</p>
+                @endif
+                @if ($customize)
+                <div wire:click='$set("colbox", {{ !$colbox }})'
+                    class="flex items-center justify-start gap-2 px-2 pt-1 bg-gray-100 rounded-t-md cursor-pointer
+                        {{ ($colbox) ? 'pb-3 -mb-2' : 'rounded-b-md pb-1' }}
+                    ">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                      </svg>
+                    <p class="text-sm">Customize Table</p>
+
+                    @if ($colbox)
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+                      </svg>
+                    @else
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                      </svg>
+                    @endif
+
                 </div>
+                @endif
+
             </div>
 
             <div class="flex items-center justify-end gap-2 px-4">
@@ -65,13 +88,18 @@
         @endif
 
     {{-- filterable area -------------------------------------------- --}}
-    <div class="w-full p-2 shadow-sm">
-        <div class="flex flex-wrap gap-1">
+    <div class="w-full shadow-sm border-t border-gray-200 bg-gray-200">
+        <div class="flex flex-grow gap-2 overflow-x-auto">
+
+            @php
+                //dd($selectedCols)
+            @endphp
+
             @foreach($columns as $col)
             @if($selectedCols[$col]['filterable'])
-            <div class="w-3/12 bg-gray-100 rounded p-2">
+            <div class="w-full sm:w-5/12 lg:w-3/12 xl:w-2/12 p-2">
 
-                <label class="capitalize">{{ $selectedCols[$col]['label'] }}</label>
+                <label class="capitalize text-sm">{{ $selectedCols[$col]['label'] }}</label>
                 <x-btui-select size="sm"
                     :options="$selectedCols[$col]['filterable_options']"
                     wire:model="filters.{{$col}}" />
@@ -85,8 +113,8 @@
     {{-- table area ------------------------------------------------- --}}
 
     @if($data->count() > 0)
-    <div class="w-full pb-4 overflow-x-auto">
-        <table class="w-full bg-white rounded-md shadow-sm">
+    <div class="w-full overflow-x-auto">
+        <table class="w-full bg-white rounded-md shadow-inner z-50">
             <thead>
             <tr class="border-b divide-x bg-gray-50 ">
                 @foreach ($columns as $col)
@@ -115,7 +143,10 @@
 
                 </th>
 
+
                 @endforeach
+
+                <th></th>
             </tr>
             </thead>
 
@@ -130,6 +161,7 @@
                 <td wire:key='data-{{ $d->id }}-{{ $col }}' id="cell" class="px-4 py-2 text-sm {{ in_array($col, $lowercase) ? '' : 'capitalize' }} ">
 
                     <x-dt-inline-edit>
+
                         <div class="">
                             @if(method_exists(new $this->model(), 'onViewFilter'))
                             {{ (new $this->model())->onViewFilter($col,$d[$col]) }}
@@ -149,25 +181,30 @@
                         @endif
 
                         @slot('form')
+
                         <div class="flex items-center justify-start gap-2 ">
 
                             <div style="width:80%;min-width:200px;">
 
                                 @if($selectedCols[$col]['editable'])
 
-                                @isset($cols['editable'][$col])
+                                    @if($selectedCols[$col]['editable-options']['inputtype'] == 'text' )
 
-                                @if($cols['editable'][$col]['inputtype'] == 'text' )
-                                    <x-btui-input id="editable-content-{{ $d['id'] }}-{{ $col }}" value="{{ $d[$col] }}" size="sm" />
-                                @elseif($cols['editable'][$col]['inputtype'] == 'select')
-                                    <x-btui-select size="sm" :options="$cols['editable'][$col]['options']" id="editable-content-{{ $d['id'] }}-{{ $col }}" value="{{ $d[$col] }}" />
-                                @else
-                                    <textarea rows="1" class="w-full px-2 border border-gray-300 rounded" id="editable-content-{{ $d['id'] }}-{{ $col }}">{{ $d[$col] }}</textarea>
-                                @endif
+                                        <x-btui-input id="editable-content-{{ $d['id'] }}-{{ $col }}"
+                                            value="{{ $d[$col] }}" size="sm" />
 
-                                @else
-                                    <textarea rows="1" class="w-full px-2 border border-gray-300 rounded" id="editable-content-{{ $d['id'] }}-{{ $col }}">{{ $d[$col] }}</textarea>
-                                @endisset
+                                    @elseif($selectedCols[$col]['editable-options']['inputtype'] == 'select')
+
+                                        <x-btui-select size="sm" :options="$selectedCols[$col]['editable-options']['params']"
+                                            id="editable-content-{{ $d['id'] }}-{{ $col }}" value="{{ $d[$col] }}" />
+
+                                    @else
+
+                                        <textarea rows="1" class="w-full px-2 border border-gray-300 rounded"
+                                            id="editable-content-{{ $d['id'] }}-{{ $col }}">{{ $d[$col] }}</textarea>
+
+                                    @endif
+
 
                                 @endif
 
@@ -185,7 +222,7 @@
                 @endforeach
 
                 {{-- delete - options ----------------------------- --}}
-                <td class="pr-1 bg-gray-100">
+                <td class="pr-1 bg-gray-100 min-w-min">
 
                     <x-dt-inline-edit  form-width="w-64">
                         @slot('trigger')

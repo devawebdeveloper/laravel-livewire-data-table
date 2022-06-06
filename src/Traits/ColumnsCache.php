@@ -82,7 +82,6 @@ trait ColumnsCache {
      */
     public function upSelectedCols(array $data)
     {
-
         return $this->updateCache($this->ckeys['selectedCols'], $data);
     }
 

@@ -91,6 +91,9 @@ class DataTable extends Component
 
     public $filters = [];
 
+    //customizable area show or not
+    public $customize;
+
     public function mount(
         $model,
         $columns = [],
@@ -100,11 +103,13 @@ class DataTable extends Component
         $editable = [],
         $filterable = [],
         $perPage = 15,
-        $addNew = []
+        $addNew = [],
+        $customizable = true
     ){
 
         //$this->table = (new $this->model())->getTable();
 
+        $this->customize = $customizable;
 
         $this->model = $model;
         //$this->columns = $columns;

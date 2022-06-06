@@ -101,6 +101,7 @@ trait InitColumns {
         //$this->getExcludedColumns();
 
         foreach($this->columns_all as $col) {
+
             if(!in_array($col, $this->cols['excluded'])) {
 
                 $this->final_cols[$col] = $this->columnData(
