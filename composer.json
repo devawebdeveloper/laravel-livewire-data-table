@@ -1,11 +1,9 @@
 {
     "name": "devaweb/livewire-data-table",
     "description": "Simple livewire data table",
-    "require": {
-        "devaweb/bladetailui": "^2.2"
-    },
     "require-dev": {
-        "livewire/livewire": "^2.10"
+        "livewire/livewire": "^2.10",
+        "devaweb/bladetailui": "^3.0"
     },
     "license": "MIT",
     "authors": [
